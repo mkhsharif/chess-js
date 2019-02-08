@@ -3,14 +3,19 @@ const CANVAS_HEIGHT = 600;
 const TILE_SIZE = 74;
 const FONT_SIZE = 17;
 
+
 function setup() {
   createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+  black_king = loadImage('assets/BlackKing.png');
 }
 
 function draw() {
   //background(225);
   createBoard();
+  image(black_king, 0, 0, TILE_SIZE, TILE_SIZE);
 }
+
+
 
 function createBoard() {
   for (var i = 0; i < 8; i++) {
