@@ -58,6 +58,28 @@ class Board {
     }
   }
 
+  getPieceAt(x, y) {
+    for (let i in this.whitePieces) {
+      if (
+        !this.whitePieces[i].isTaken &&
+        this.whitePieces[i].coor.x === x &&
+        this.whitePieces[i].coor.y === y
+      ) {
+        return this.whitePieces[i];
+      }
+
+      for (let i in this.blackPieces) {
+        if (
+          !this.blackPieces[i].isTaken &&
+          this.blackPieces[i].coor.x === x &&
+          this.blackPieces[i].coor.y === y
+        ) {
+          return this.blackPieces[i];
+        }
+      }
+    }
+  }
+
   /*setFEN(FEN) {
     clearBoard();
 

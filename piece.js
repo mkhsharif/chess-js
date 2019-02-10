@@ -1,17 +1,28 @@
 class Piece {
   constructor(x, y, isWhite, img) {
-    this.vector = createVector(x, y);
-    this.pixelPos = createVector(x * TILE_SIZE, y * TILE_SIZE);
+    this.coor = createVector(x, y);
+    this.pixelPos = createVector((x * TILE_SIZE) + TILE_SIZE/2, (y * TILE_SIZE) + TILE_SIZE/2);
     this.isWhite = isWhite;
     this.value = 0;
     this.taken = false;
+    this.isMoving = false;
   }
 
   show() {
-    if (!this.taken)
-      image(this.img, this.pixelPos.x, this.pixelPos.y, TILE_SIZE, TILE_SIZE);
+    if (!this.taken) {
+        imageMode(CENTER);
+      if (!this.isMoving) {
+        image(this.img, this.pixelPos.x, this.pixelPos.y, TILE_SIZE / 1.1, TILE_SIZE / 1.1);
+      } else {
+          
+        image(this.img, mouseX, mouseY, TILE_SIZE, TILE_SIZE);
+      }
+    }
   }
 
+  clicked() {
+    console.log('clicked');
+  }
 }
 
 class King extends Piece {

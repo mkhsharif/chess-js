@@ -1,7 +1,12 @@
-const TILE_SIZE = 74;
+const TILE_SIZE = 75;
 const FONT_SIZE = 17;
 const CANVAS_WIDTH = TILE_SIZE * 8;
 const CANVAS_HEIGHT = TILE_SIZE * 8;
+
+var whitesMove = false;
+var moving = false;
+var movingPiece;
+
 
 var images = [];
 var names = [
@@ -35,12 +40,26 @@ function draw() {
   createBoard();
   test.show();
 
+  
+
+}
+
+
 
  
   // black pieces
   //img = image(images[8], 0 * TILE_SIZE, 0 * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-}
 
+
+
+function mousePressed() {
+    let x = floor(mouseX / TILE_SIZE);
+    let y = floor(mouseY / TILE_SIZE);
+    console.log(x, y);
+    console.log(movingPiece = test.getPieceAt(x, y));
+    movingPiece.isMoving = true;
+    
+}
 
 
 function createBoard() {
