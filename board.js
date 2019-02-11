@@ -20,7 +20,7 @@ class Board {
     this.whitePieces.push(new Rook(0, 7, true));
     this.whitePieces.push(new Rook(7, 7, true));
 
-    this.whitePieces.push(new Pawn(3, 6, true));
+    this.blackPieces.push(new Pawn(3, 6, false));
     this.whitePieces.push(new Pawn(4, 6, true));
     this.whitePieces.push(new Pawn(2, 6, true));
     this.whitePieces.push(new Pawn(5, 6, true));
@@ -38,7 +38,7 @@ class Board {
     this.blackPieces.push(new Rook(0, 0, false));
     this.blackPieces.push(new Rook(7, 0, false));
 
-    this.blackPieces.push(new Pawn(3, 1, false));
+    this.whitePieces.push(new Pawn(3, 1, true));
     this.blackPieces.push(new Pawn(4, 1, false));
     this.blackPieces.push(new Pawn(2, 1, false));
     this.blackPieces.push(new Pawn(5, 1, false));

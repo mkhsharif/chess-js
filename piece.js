@@ -1,7 +1,10 @@
 class Piece {
   constructor(x, y, isWhite, img) {
     this.coor = createVector(x, y);
-    this.pixelPos = createVector((x * TILE_SIZE) + TILE_SIZE/2, (y * TILE_SIZE) + TILE_SIZE/2);
+    this.pixelPos = createVector(
+      x * TILE_SIZE + TILE_SIZE / 2,
+      y * TILE_SIZE + TILE_SIZE / 2
+    );
     this.isWhite = isWhite;
     this.value = 0;
     this.taken = false;
@@ -10,18 +13,70 @@ class Piece {
 
   show() {
     if (!this.taken) {
-        imageMode(CENTER);
+      imageMode(CENTER);
       if (!this.isMoving) {
-        image(this.img, this.pixelPos.x, this.pixelPos.y, TILE_SIZE / 1.1, TILE_SIZE / 1.1);
+        image(
+          this.img,
+          this.pixelPos.x,
+          this.pixelPos.y,
+          TILE_SIZE / 1.1,
+          TILE_SIZE / 1.1
+        );
       } else {
-          
         image(this.img, mouseX, mouseY, TILE_SIZE, TILE_SIZE);
       }
     }
   }
 
-  clicked() {
-    console.log('clicked');
+  updatePos(x, y) {
+    this.coor = createVector(x, y);
+    this.pixelPos = createVector(
+      x * TILE_SIZE + TILE_SIZE / 2,
+      y * TILE_SIZE + TILE_SIZE / 2
+    );
+  }
+
+  // checks if space is occupied by ally or enemy
+  validateMove(x, y, board) {
+    if (this.isWhite) {
+      for (let i in board.whitePieces) {
+        if (
+          board.whitePieces[i].coor.x === x &&
+          board.whitePieces[i].coor.y == y
+        ) {
+          return false;
+        }
+      }
+
+      for (let i in board.blackPieces) {
+        if (
+          board.blackPieces[i].coor.x === x &&
+          board.blackPieces[i].coor.y == y
+        ) {
+          board.blackPieces[i].taken = true;
+          return true;
+        }
+      }
+    } else {
+      for (let i in board.blackPieces) {
+        if (
+          board.blackPieces[i].coor.x === x &&
+          board.blackPieces[i].coor.y == y
+        ) {
+          return false;
+        }
+      }
+
+      for (let i in board.whitePieces) {
+        if (
+          board.whitePieces[i].coor.x === x &&
+          board.whitePieces[i].coor.y == y
+        ) {
+          board.whitePieces[i].taken = true;
+          return true;
+        }
+      }
+    }
   }
 }
 
@@ -35,6 +90,30 @@ class King extends Piece {
     }
     this.value = 99;
   }
+
+  requestedMove(x, y, board) {
+    // return false if out of bounds
+    if (x < 0 || y < 0 || x > 7 || y > 7) {
+      return false;
+    }
+
+    // valid moves
+    if (
+      (this.coor.x === x || this.coor.x === x - 1 || this.coor.x === x + 1) &&
+      (this.coor.y === y || this.coor.y === y - 1 || this.coor.y === y + 1)
+    ) {
+      console.log('this.x:', this.coor.x, 'x:', x);
+      console.log('this.y:', this.coor.y, 'y:', y);
+
+      this.validateMove(x, y, board);
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //canTake(x, y) {}
 }
 
 class Queen extends Piece {

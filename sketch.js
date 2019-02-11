@@ -6,7 +6,7 @@ const CANVAS_HEIGHT = TILE_SIZE * 8;
 var whitesMove = false;
 var moving = false;
 var movingPiece;
-
+var cnv;
 
 var images = [];
 var names = [
@@ -25,7 +25,8 @@ var names = [
 ];
 
 function setup() {
-  createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+  cnv = createCanvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+  cnv.mousePressed(grabPiece);
 
   for (let i = 0; i < 12; i++) {
     images.push(loadImage('assets/' + names[i] + '.png'));
@@ -34,33 +35,42 @@ function setup() {
   test = new Board();
 }
 
-
 function draw() {
   //background(225);
   createBoard();
   test.show();
-
-  
-
 }
 
+// black pieces
+//img = image(images[8], 0 * TILE_SIZE, 0 * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 
-
- 
-  // black pieces
-  //img = image(images[8], 0 * TILE_SIZE, 0 * TILE_SIZE, TILE_SIZE, TILE_SIZE);
-
-
-
-function mousePressed() {
-    let x = floor(mouseX / TILE_SIZE);
-    let y = floor(mouseY / TILE_SIZE);
-    console.log(x, y);
-    console.log(movingPiece = test.getPieceAt(x, y));
-    movingPiece.isMoving = true;
-    
+function grabPiece() {
+  let x = floor(mouseX / TILE_SIZE);
+  let y = floor(mouseY / TILE_SIZE);
+  console.log(x, y);
+  if (!movingPiece && mouseIsPressed) {
+    console.log((movingPiece = test.getPieceAt(x, y)));
+  }
+  movingPiece.isMoving = true;
 }
 
+function releasePiece() {
+  let x = floor(mouseX / TILE_SIZE);
+  let y = floor(mouseY / TILE_SIZE);
+  //console.log(x, y);
+
+  if (movingPiece) {
+    if(movingPiece.requestedMove(x, y, test)) {
+        movingPiece.updatePos(x, y);
+    }
+    movingPiece.isMoving = false;
+    movingPiece = null;
+  }
+}
+
+function mouseReleased() {
+  releasePiece();
+}
 
 function createBoard() {
   for (let i = 0; i < 8; i++) {
